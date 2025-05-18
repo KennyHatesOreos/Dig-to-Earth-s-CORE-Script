@@ -8,11 +8,11 @@ if not Luna then error("Luna UI returned nil") end
 
 -- Create Window
 local Window = Luna:CreateWindow({
-    Name = "Digging Script Ver 1.1",
-    Subtitle = "By OreoScripts",
+    Name = "Digging Script",
+    Subtitle = "By YourName",
     LoadingEnabled = true,
-    LoadingTitle = "Loading OreoHub",
-    LoadingSubtitle = "Powered by Oreos",
+    LoadingTitle = "Loading Digging Script...",
+    LoadingSubtitle = "Powered by Luna UI",
     ConfigSettings = {
         RootFolder = nil,
         ConfigFolder = "DiggingScriptConfigs"
@@ -20,30 +20,11 @@ local Window = Luna:CreateWindow({
     KeySystem = false,
 })
 
--- Create Tabs
-local DigTab = Window:CreateTab({
-    Name = "Main",
-})
+-- Main Tab
+local DigTab = Window:CreateTab({ Name = "Main" })
 
-local UpgradeTab = Window:CreateTab({
-    Name = "Upgrades",
-})
-
--- State variables
+-- Auto Dig Logic
 local AutoDig = false
-local Player = game.Players.LocalPlayer
-local Character = Player.Character or Player.CharacterAdded:Wait()
-
--- Reference to the upgrade remote (update this path if different)
-local UpgradeEvent = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeEvent")
-
--- Function to simulate digging action
-local function Dig()
-    print("Digging...")
-    -- Your actual digging logic here (e.g. fire remote, tool activation, etc)
-end
-
--- Auto Dig toggle
 DigTab:CreateToggle({
     Name = "Auto Dig",
     CurrentValue = false,
@@ -53,74 +34,79 @@ DigTab:CreateToggle({
         if AutoDig then
             spawn(function()
                 while AutoDig do
-                    Dig()
-                    wait(1) -- fixed 1 second between digs, no speed slider as requested
+                    local digArgs = { "hello" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DigEvent"):FireServer(unpack(digArgs))
+                    wait(0.5)
+                end
+            end)
+            spawn(function()
+                while AutoDig do
+                    local gemArgs = { 14, "bye" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GemEvent"):FireServer(unpack(gemArgs))
+                    wait(0.2)
                 end
             end)
         end
     end
 })
 
--- Info label
-DigTab:CreateLabel("Use Auto Dig for automatic digging every 1 second.")
+-- Insane Tab
+local InsaneTab = Window:CreateTab({ Name = "Insane" })
 
--- Helper function to auto upgrade continuously while toggle is on
-local function AutoUpgrade(statName, toggleFlag)
-    spawn(function()
-        while Window.Flags[toggleFlag] do
-            UpgradeEvent:FireServer(statName, 1) -- fixed price parameter
-            print("Upgrading", statName)
-            wait(0.5) -- delay between upgrades
+-- Infinite Spins (Chest)
+local Spinning = false
+InsaneTab:CreateToggle({
+    Name = "Infinite Spins",
+    CurrentValue = false,
+    Callback = function(value)
+        Spinning = value
+        if Spinning then
+            spawn(function()
+                while Spinning do
+                    local args = { "Chest" }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("TreasureEvent"):FireServer(unpack(args))
+                    wait(0.1)
+                end
+            end)
         end
-    end)
+    end
+})
+
+-- Upgrades Tab
+local UpgradesTab = Window:CreateTab({ Name = "Upgrades" })
+
+-- Upgrade spam toggles
+local upgrades = {
+    "Speed",
+    "Power",
+    "Bag",
+    "Sell",
+    "Luck",
+    "Multiplier",
+    "GemMultiplier"
+}
+local upgradeLoops = {}
+
+for _, upgradeName in ipairs(upgrades) do
+    upgradeLoops[upgradeName] = false
+
+    UpgradesTab:CreateToggle({
+        Name = "Spam " .. upgradeName,
+        CurrentValue = false,
+        Callback = function(value)
+            upgradeLoops[upgradeName] = value
+            if value then
+                spawn(function()
+                    while upgradeLoops[upgradeName] do
+                        local args = { 1, upgradeName }
+                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeEvent"):FireServer(unpack(args))
+                        wait(0.1)
+                    end
+                end)
+            end
+        end
+    })
 end
 
--- Auto Upgrades toggles
-UpgradeTab:CreateToggle({
-    Name = "Auto Upgrade PetLuck",
-    Flag = "AutoUpgradePetLuck",
-    CurrentValue = false,
-    Callback = function(value)
-        if value then
-            AutoUpgrade("PetLuck", "AutoUpgradePetLuck")
-        end
-    end
-})
-
-UpgradeTab:CreateToggle({
-    Name = "Auto Upgrade GemChance",
-    Flag = "AutoUpgradeGemChance",
-    CurrentValue = false,
-    Callback = function(value)
-        if value then
-            AutoUpgrade("GemChance", "AutoUpgradeGemChance")
-        end
-    end
-})
-
-UpgradeTab:CreateToggle({
-    Name = "Auto Upgrade Strength",
-    Flag = "AutoUpgradeStrength",
-    CurrentValue = false,
-    Callback = function(value)
-        if value then
-            AutoUpgrade("Strength", "AutoUpgradeStrength")
-        end
-    end
-})
-
-UpgradeTab:CreateToggle({
-    Name = "Auto Upgrade WalkSpeed",
-    Flag = "AutoUpgradeWalkSpeed",
-    CurrentValue = false,
-    Callback = function(value)
-        if value then
-            AutoUpgrade("WalkSpeed", "AutoUpgradeWalkSpeed")
-        end
-    end
-})
-
-UpgradeTab:CreateLabel("Enable any upgrade toggle to continuously upgrade that stat.")
-
--- Show window
+-- Show UI
 Window:Ready()
