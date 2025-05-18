@@ -9,10 +9,10 @@ if not Luna then error("Luna UI returned nil") end
 -- Create Window
 local Window = Luna:CreateWindow({
     Name = "Digging Script Ver 1.1",
-    Subtitle = "By YourName",
+    Subtitle = "By OreoScripts",
     LoadingEnabled = true,
-    LoadingTitle = "Loading Digging Script...",
-    LoadingSubtitle = "Powered by Luna UI",
+    LoadingTitle = "Loading OreoHub",
+    LoadingSubtitle = "Powered by Oreos",
     ConfigSettings = {
         RootFolder = nil,
         ConfigFolder = "DiggingScriptConfigs"
