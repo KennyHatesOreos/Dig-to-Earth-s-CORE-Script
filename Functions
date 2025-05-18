@@ -1,1 +1,6 @@
+Give dominus pet
+local args = {
+	4
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("SpinPrizeEvent"):FireServer(unpack(args))
 
