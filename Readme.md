@@ -22,3 +22,7 @@ Auto Gold Dominus toggle (loops every 15 seconds)
 Auto Diamond Dominus toggle (loops every 60 seconds)
 
 Buy All Pickaxes 
+
+
+Script Made With the Luna UI
+https://github.com/Nebula-Softworks/Luna-Interface-Suite
