@@ -4,3 +4,41 @@ local args = {
 }
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("SpinPrizeEvent"):FireServer(unpack(args))
 
+Auto Dig
+-- Auto Dig variables
+local AutoDig = false
+
+-- Function to spam DigEvent every 0.5 seconds
+local function AutoDig_DigEvent()
+    while AutoDig do
+        local args = { "hello" }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("DigEvent"):FireServer(unpack(args))
+        wait(0.5)
+    end
+end
+
+-- Function to spam GemEvent every 0.2 seconds
+local function AutoDig_GemEvent()
+    while AutoDig do
+        local args = { 14, "bye" }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GemEvent"):FireServer(unpack(args))
+        wait(0.2)
+    end
+end
+
+-- Toggle Auto Dig ON/OFF
+local function SetAutoDig(value)
+    AutoDig = value
+    if AutoDig then
+        spawn(AutoDig_DigEvent)
+        spawn(AutoDig_GemEvent)
+    end
+end
+
+-- Example usage: turn Auto Dig ON
+-- SetAutoDig(true)
+
+-- Example usage: turn Auto Dig OFF
+-- SetAutoDig(false)
+
+
