@@ -1,7 +1,6 @@
-Exploiting script for Dig to Earth's CORE! an up and coming roblox game
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/KennyHatesOreos/Dig-to-Earth-s-CORE-Script/refs/heads/main/EarthDigScript.Lua", true))()
 
+Exploiting script for Dig to Earth's CORE! an up and coming roblox game
 
 https://www.roblox.com/games/81440632616906/Dig-to-Earths-CORE
 
