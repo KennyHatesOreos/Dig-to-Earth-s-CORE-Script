@@ -21,6 +21,8 @@ Auto Gold Dominus toggle (loops every 15 seconds)
 
 Auto Diamond Dominus toggle (loops every 60 seconds)
 
+Auto Void Dominus toggle (loops every 500 seconds)
+
 Buy All Pickaxes 
 
 
