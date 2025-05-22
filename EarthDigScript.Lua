@@ -83,7 +83,20 @@ MainTab:CreateToggle({
 
 MainTab:CreateDivider()
 
--- Buy All Pickaxes Button
+-- Night Mode Toggle
+MainTab:CreateToggle({
+    Name = "Night Mode",
+    Flag = "NightModeToggle",
+    CurrentValue = false,
+    Callback = function(value)
+        local args = {"NightMode", value}
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("SettingsEvent"):FireServer(unpack(args))
+    end,
+})
+
+MainTab:CreateDivider()
+
+-- Buy All Pickaxes Button in Main Tab
 local pickaxes = {
     "Admin", "Angel", "Anime", "Cake", "Cosmic", "Crystal", "Diamond", "Easter", "Emoji",
     "Firework", "Future", "Glitch", "Gold", "Ice", "Iron", "Lava", "Lunar", "Neon",
@@ -102,7 +115,7 @@ MainTab:CreateButton({
     end,
 })
 
--- === UPGRADES TAB ===
+-- Upgrades Tab
 local UpgradesTab = Window:CreateTab({
     Name = "Upgrades",
 })
@@ -137,7 +150,7 @@ for _, upgrade in ipairs(validUpgrades) do
     })
 end
 
--- === INSANE TAB ===
+-- Insane Tab
 local InsaneTab = Window:CreateTab({
     Name = "Insane",
 })
@@ -159,9 +172,7 @@ InfinityTab:CreateToggle({
             spawn(function()
                 while InfinitySpinsToggle do
                     local treasureArgsList = {
-                        {"Chest"},
-                        {"Barrel"},
-                        {"Key"},
+                        -- Removed Chest, Barrel, Key, etc. as requested
                         {"CoinStack"},
                         {"CashStack"},
                     }
@@ -176,6 +187,8 @@ InfinityTab:CreateToggle({
     end,
 })
 
+InsaneTab:CreateDivider()
+
 -- World Teleport Button
 InsaneTab:CreateButton({
     Name = "World Teleport (Reset to set location)",
@@ -185,7 +198,33 @@ InsaneTab:CreateButton({
     end,
 })
 
--- === PETS TAB ===
+InsaneTab:CreateDivider()
+
+-- Auto Win Toggle
+local AutoWinToggle = false
+local player = game.Players.LocalPlayer
+
+InsaneTab:CreateToggle({
+    Name = "Auto Win",
+    Flag = "AutoWinToggle",
+    CurrentValue = false,
+    Callback = function(value)
+        AutoWinToggle = value
+        if value then
+            spawn(function()
+                while AutoWinToggle do
+                    local targetCFrame = CFrame.new(1, -412, -9000, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+                    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                        player.Character.HumanoidRootPart.CFrame = targetCFrame
+                    end
+                    wait(1)
+                end
+            end)
+        end
+    end,
+})
+
+-- Pets Tab
 local PetsTab = Window:CreateTab({
     Name = "Pets",
 })
@@ -222,7 +261,10 @@ PetsTab:CreateToggle({
         if value then
             spawn(function()
                 while AutoGoldDominusToggle do
-                    local args = {"Triple Dominus", 100}
+                    local args = {
+                        "Triple Dominus",
+                        100
+                    }
                     game:GetService("ReplicatedStorage"):WaitForChild("PetRemotes"):WaitForChild("GoldPetCraftEvent"):FireServer(unpack(args))
                     wait(15)
                 end
@@ -243,7 +285,10 @@ PetsTab:CreateToggle({
         if value then
             spawn(function()
                 while AutoDiamondDominusToggle do
-                    local args = {"Gold Triple Dominus", 100}
+                    local args = {
+                        "Gold Triple Dominus",
+                        100
+                    }
                     game:GetService("ReplicatedStorage"):WaitForChild("PetRemotes"):WaitForChild("DiamondPetCraftEvent"):FireServer(unpack(args))
                     wait(60)
                 end
@@ -251,6 +296,29 @@ PetsTab:CreateToggle({
         end
     end,
 })
+
+PetsTab:CreateToggle({
+    Name = "Auto Void Dominus",
+    Flag = "AutoVoidDominusToggle",
+    CurrentValue = false,
+    Callback = function(value)
+        AutoVoidDominusToggle = value
+        if value then
+            spawn(function()
+                while AutoVoidDominusToggle do
+                    local args = {
+                        "Diamond Triple Dominus",
+                        100
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("PetRemotes"):WaitForChild("VoidPetCraftEvent"):FireServer(unpack(args))
+                    wait(500)
+                end
+            end)
+        end
+    end,
+})
+
+
 
 -- Finalize UI
 Window:Ready()
