@@ -13,7 +13,7 @@ Upgrades toggles (GemChance, Strength, PetLuck, WalkSpeed)
 
 Infinite Spins 
 
-World Teleport button 
+World Teleport button (Will add other worlds soon)
 
 Auto Wins (Must use world teleport first)
 
