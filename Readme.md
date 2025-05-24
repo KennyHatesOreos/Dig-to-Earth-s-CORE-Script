@@ -15,6 +15,8 @@ Infinite Spins
 
 World Teleport button 
 
+Auto Wins (Must use world teleport first)
+
 Pets tab with Give 50x Pet toggle
 
 Auto Gold Dominus toggle.  loops every 15 seconds
