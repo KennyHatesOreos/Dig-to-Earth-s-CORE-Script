@@ -1,3 +1,7 @@
+WARNING: This script is still a work in progress and may not be working!
+
+
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/KennyHatesOreos/Dig-to-Earth-s-CORE-Script/refs/heads/main/EarthDigScript.Lua", true))()
 
 Exploiting script for Dig to Earth's CORE! an up and coming roblox game
